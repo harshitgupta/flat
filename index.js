@@ -9,6 +9,7 @@ function flatten (target, opts) {
 
   var delimiter = opts.delimiter || '.'
   var maxDepth = opts.maxDepth
+  var ignoreArray = opts.ignoreArray
   var output = {}
 
   function step (object, prev, currentDepth) {
@@ -23,9 +24,7 @@ function flatten (target, opts) {
         type === '[object Array]'
       )
 
-      var newKey = prev
-        ? prev + delimiter + key
-        : key
+      var newKey = prev ? prev + ((ignoreArray + !isNaN(key)) ? "" : delimiter + key) : key;
 
       if (!isarray && !isbuffer && isobject && Object.keys(value).length &&
         (!opts.maxDepth || currentDepth < maxDepth)) {
